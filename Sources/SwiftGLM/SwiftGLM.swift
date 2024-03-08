@@ -2,17 +2,17 @@
 // https://docs.swift.org/swift-book
 
 public struct vec3<T> where T : AdditiveArithmetic  {
-  var x: T
-  var y: T
-  var z: T
+  public var x: T
+  public var y: T
+  public var z: T
 
-  init(_ x: T, _ y: T, _ z: T) {
+  public init(_ x: T, _ y: T, _ z: T) {
     self.x = x
     self.y = y
     self.z = z
   }
 
-  static func + (lhs: Self, rhs: Self) -> Self {
+  public static func + (lhs: Self, rhs: Self) -> Self {
     vec3(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z)
   }
 }
