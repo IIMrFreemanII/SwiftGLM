@@ -1,7 +1,7 @@
 // The Swift Programming Language
 // https://docs.swift.org/swift-book
 
-struct vec3<T> where T : AdditiveArithmetic  {
+public struct vec3<T> where T : AdditiveArithmetic  {
   var x: T
   var y: T
   var z: T
