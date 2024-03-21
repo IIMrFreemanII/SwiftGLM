@@ -15,10 +15,10 @@ final class SwiftGLMTests: XCTestCase {
     // let result = mat1 * mat2
     // print(result)
 
-    let mat1 = translate(vec3f(1, 2, 3))
+    let mat1 = scale(vec3f(1, 2, 3))
     // let mat2 = translate(vec3f(1, 1, 1))
     // var result = mat1 * mat2
-    var vec = mat1 * vec3f(0, 0, 0)
+    var vec = mat1 * vec3f(0.5)
 
     print(mat1)
     print(vec)
