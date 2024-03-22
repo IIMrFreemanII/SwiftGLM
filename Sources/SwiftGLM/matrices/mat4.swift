@@ -6,7 +6,7 @@ public struct mat4 {
 
 extension mat4 {
   // Identity initializer
-  init(_ value: Float = 1) {
+  public init(_ value: Float = 1) {
     self.columns = (
       vec4<Float>(value, 0, 0, 0),
       vec4<Float>(0, value, 0, 0),
@@ -14,7 +14,7 @@ extension mat4 {
       vec4<Float>(0, 0, 0, value)
     )
   }
-  init(_ c0: vec4<Float>, _ c1: vec4<Float>, _ c2: vec4<Float>, _ c3: vec4<Float>) {
+  public init(_ c0: vec4<Float>, _ c1: vec4<Float>, _ c2: vec4<Float>, _ c3: vec4<Float>) {
     self.columns = (c0, c1, c2, c3)
   }
 }
