@@ -36,7 +36,7 @@ extension mat4: CustomStringConvertible {
 
 extension mat4 {
   // Subscript for easy access
-  subscript(column: Int) -> vec4<Float> {
+  public subscript(column: Int) -> vec4<Float> {
     get {
       switch column {
       case 0:

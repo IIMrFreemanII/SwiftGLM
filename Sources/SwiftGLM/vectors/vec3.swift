@@ -24,7 +24,7 @@ public struct vec3<T> where T: AdditiveArithmetic {
   }
 
   // Subscript for easy access
-  subscript(column: Int) -> T {
+  public subscript(column: Int) -> T {
     get {
       switch column {
       case 0:

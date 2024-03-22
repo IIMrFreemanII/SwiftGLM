@@ -23,7 +23,7 @@ extension vec4 {
 
 extension vec4 {
   // Subscript for easy access
-  subscript(column: Int) -> T {
+  public subscript(column: Int) -> T {
     get {
       switch column {
       case 0:
