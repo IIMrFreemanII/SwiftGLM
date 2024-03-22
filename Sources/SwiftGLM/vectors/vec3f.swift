@@ -31,3 +31,14 @@ extension vec3f {
     return v * m
   }
 }
+
+extension vec3f {
+  public static let up = vec3f(0, 1, 0)
+  public static let down = vec3f(0, -1, 0)
+
+  public static let left = vec3f(-1, 0, 0)
+  public static let right = vec3f(1, 0, 0)
+
+  public static let forward = vec3f(0, 0, 1)
+  public static let back = vec3f(0, 0, -1)
+}

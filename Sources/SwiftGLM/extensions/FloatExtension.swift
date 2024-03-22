@@ -1,14 +1,12 @@
-/**
-  How to type π
-  macOS
-  Option + p
-
-  Windows
-  Make sure Num Lock is on.
-  Hold down the Alt key.
-  Type 227 on the numeric keypad.
-  Release the Alt key.
- */
+/// How to type π
+/// macOS
+/// Option + p
+///
+/// Windows
+/// Make sure Num Lock is on.
+/// Hold down the Alt key.
+/// Type 227 on the numeric keypad.
+/// Release the Alt key.
 public let π = Float.pi
 
 extension Float {
@@ -18,4 +16,12 @@ extension Float {
   public var degreesToRadians: Float {
     (self / 180) * π
   }
+}
+
+public func degrees(_ radians: Float) -> Float {
+  return radians.radiansToDegrees
+}
+
+public func radians(_ degrees: Float) -> Float {
+  return degrees.degreesToRadians
 }
