@@ -89,106 +89,100 @@ extension mat4 {
   }
 }
 
-extension mat4 {
-  // translate
-  public func translate(_ translation: vec3<Float>) -> mat4 {
-    return mat4(
-      vec4f(1, 0, 0, 0),
-      vec4f(0, 1, 0, 0),
-      vec4f(0, 0, 1, 0),
-      vec4f(translation.x, translation.y, translation.z, 1))
-  }
-  // scale
-  public func scale(_ scaling: vec3<Float>) -> mat4 {
-    return mat4(
-      vec4f(scaling.x, 0, 0, 0),
-      vec4f(0, scaling.y, 0, 0),
-      vec4f(0, 0, scaling.z, 0),
-      vec4f(0, 0, 0, 1))
-  }
-  // rotate
-  public func rotateX(_ angle: Float) -> mat4 {
-    return mat4(
-      vec4f(1, 0, 0, 0),
-      vec4f(0, cos(angle), sin(angle), 0),
-      vec4f(0, -sin(angle), cos(angle), 0),
-      vec4f(0, 0, 0, 1)
-    )
-  }
-  public func rotateY(_ angle: Float) -> mat4 {
-    return mat4(
-      vec4f(cos(angle), 0, -sin(angle), 0),
-      vec4f(0, 1, 0, 0),
-      vec4f(sin(angle), 0, cos(angle), 0),
-      vec4f(0, 0, 0, 1)
-    )
-  }
-  public func rotateZ(_ angle: Float) -> mat4 {
-    return mat4(
-      vec4f(cos(angle), sin(angle), 0, 0),
-      vec4f(-sin(angle), cos(angle), 0, 0),
-      vec4f(0, 0, 1, 0),
-      vec4f(0, 0, 0, 1)
-    )
-  }
-  public func rotate(_ angle: vec3<Float>) -> mat4 {
-    let rotationX = rotateX(angle.x)
-    let rotationY = rotateY(angle.y)
-    let rotationZ = rotateZ(angle.z)
-    return rotationX * rotationY * rotationZ
-  }
+// translate
+public func translate(_ translation: vec3<Float>) -> mat4 {
+  return mat4(
+    vec4f(1, 0, 0, 0),
+    vec4f(0, 1, 0, 0),
+    vec4f(0, 0, 1, 0),
+    vec4f(translation.x, translation.y, translation.z, 1))
+}
+// scale
+public func scale(_ scaling: vec3<Float>) -> mat4 {
+  return mat4(
+    vec4f(scaling.x, 0, 0, 0),
+    vec4f(0, scaling.y, 0, 0),
+    vec4f(0, 0, scaling.z, 0),
+    vec4f(0, 0, 0, 1))
+}
+// rotate
+public func rotateX(_ angle: Float) -> mat4 {
+  return mat4(
+    vec4f(1, 0, 0, 0),
+    vec4f(0, cos(angle), sin(angle), 0),
+    vec4f(0, -sin(angle), cos(angle), 0),
+    vec4f(0, 0, 0, 1)
+  )
+}
+public func rotateY(_ angle: Float) -> mat4 {
+  return mat4(
+    vec4f(cos(angle), 0, -sin(angle), 0),
+    vec4f(0, 1, 0, 0),
+    vec4f(sin(angle), 0, cos(angle), 0),
+    vec4f(0, 0, 0, 1)
+  )
+}
+public func rotateZ(_ angle: Float) -> mat4 {
+  return mat4(
+    vec4f(cos(angle), sin(angle), 0, 0),
+    vec4f(-sin(angle), cos(angle), 0, 0),
+    vec4f(0, 0, 1, 0),
+    vec4f(0, 0, 0, 1)
+  )
+}
+public func rotate(_ angle: vec3<Float>) -> mat4 {
+  let rotationX = rotateX(angle.x)
+  let rotationY = rotateY(angle.y)
+  let rotationZ = rotateZ(angle.z)
+  return rotationX * rotationY * rotationZ
 }
 
-extension mat4 {
-  // Left handed projection matrix
-  public func perspective(fov: Float, near: Float, far: Float, aspect: Float, lhs: Bool = true)
-    -> mat4
-  {
-    let y = 1 / tan(fov * 0.5)
-    let x = y / aspect
-    let z = lhs ? far / (far - near) : far / (near - far)
-    let X = vec4<Float>(x, 0, 0, 0)
-    let Y = vec4<Float>(0, y, 0, 0)
-    let Z = lhs ? vec4<Float>(0, 0, z, 1) : vec4<Float>(0, 0, z, -1)
-    let W = lhs ? vec4<Float>(0, 0, z * -near, 0) : vec4<Float>(0, 0, z * near, 0)
+// Left handed projection matrix
+public func perspective(fov: Float, near: Float, far: Float, aspect: Float, lhs: Bool = true)
+  -> mat4
+{
+  let y = 1 / tan(fov * 0.5)
+  let x = y / aspect
+  let z = lhs ? far / (far - near) : far / (near - far)
+  let X = vec4<Float>(x, 0, 0, 0)
+  let Y = vec4<Float>(0, y, 0, 0)
+  let Z = lhs ? vec4<Float>(0, 0, z, 1) : vec4<Float>(0, 0, z, -1)
+  let W = lhs ? vec4<Float>(0, 0, z * -near, 0) : vec4<Float>(0, 0, z * near, 0)
 
-    return mat4(X, Y, Z, W)
-  }
-
-  // Orthographic matrix
-  public func orthographic(
-    left: Float, right: Float, bottom: Float, top: Float, near: Float, far: Float
-  ) -> mat4 {
-    let invRL = 1 / (right - left)
-    let invTB = 1 / (top - bottom)
-    let invFN = 1 / (far - near)
-
-    let X = vec4<Float>(2 * invRL, 0, 0, 0)
-    let Y = vec4<Float>(0, 2 * invTB, 0, 0)
-    let Z = vec4<Float>(0, 0, -invFN, 0)
-    let W = vec4<Float>(
-      -(right + left) * invRL,
-      -(top + bottom) * invTB,
-      -(far + near) * invFN,
-      1
-    )
-
-    return mat4(X, Y, Z, W)
-  }
+  return mat4(X, Y, Z, W)
 }
 
-extension mat4 {
-  // left-handed LookAt
-  public func lookAt(eye: vec3<Float>, center: vec3<Float>, up: vec3<Float>) -> mat4 {
-    let zAxis = (center - eye).normalized
-    let xAxis = cross(up, zAxis).normalized
-    let yAxis = cross(zAxis, xAxis)
+// Orthographic matrix
+public func orthographic(
+  left: Float, right: Float, bottom: Float, top: Float, near: Float, far: Float
+) -> mat4 {
+  let invRL = 1 / (right - left)
+  let invTB = 1 / (top - bottom)
+  let invFN = 1 / (far - near)
 
-    let x = vec4<Float>(xAxis.x, yAxis.x, zAxis.x, 0)
-    let y = vec4<Float>(xAxis.y, yAxis.y, zAxis.y, 0)
-    let z = vec4<Float>(xAxis.z, yAxis.z, zAxis.z, 0)
-    let w = vec4<Float>(-dot(xAxis, eye), -dot(yAxis, eye), -dot(zAxis, eye), 1)
+  let X = vec4<Float>(2 * invRL, 0, 0, 0)
+  let Y = vec4<Float>(0, 2 * invTB, 0, 0)
+  let Z = vec4<Float>(0, 0, -invFN, 0)
+  let W = vec4<Float>(
+    -(right + left) * invRL,
+    -(top + bottom) * invTB,
+    -(far + near) * invFN,
+    1
+  )
 
-    return mat4(x, y, z, w)
-  }
+  return mat4(X, Y, Z, W)
+}
+
+// left-handed LookAt
+public func lookAt(eye: vec3<Float>, center: vec3<Float>, up: vec3<Float>) -> mat4 {
+  let zAxis = (center - eye).normalized
+  let xAxis = cross(up, zAxis).normalized
+  let yAxis = cross(zAxis, xAxis)
+
+  let x = vec4<Float>(xAxis.x, yAxis.x, zAxis.x, 0)
+  let y = vec4<Float>(xAxis.y, yAxis.y, zAxis.y, 0)
+  let z = vec4<Float>(xAxis.z, yAxis.z, zAxis.z, 0)
+  let w = vec4<Float>(-dot(xAxis, eye), -dot(yAxis, eye), -dot(zAxis, eye), 1)
+
+  return mat4(x, y, z, w)
 }
